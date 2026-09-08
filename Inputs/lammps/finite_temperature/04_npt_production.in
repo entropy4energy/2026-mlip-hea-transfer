@@ -1,0 +1,128 @@
+# NPT production from a separately accepted equilibrated state for density,
+# volume, enthalpy fluctuations, thermal expansion, and partial RDFs.
+
+clear
+units           metal
+dimension       3
+boundary        p p p
+atom_style      atomic
+atom_modify     map yes
+
+variable        MODEL index model.pth
+variable        PLUGIN index libdeepmd_lmp.so
+variable        DATA index equilibrated.data
+variable        ARCH index unknown
+variable        MODEL_ID index unknown
+variable        PHASE index unknown
+variable        CNA_CUTOFF index 4.16452
+variable        TEMP index 300.0
+variable        PRESS index 0.0
+variable        DT index 0.001
+variable        TDAMP index 0.1
+variable        PDAMP index 1.0
+variable        N_PROD index 200000
+variable        THERMO_EVERY index 1000
+variable        SAMPLE_EVERY index 100
+variable        RDF_EVERY index 100
+variable        RDF_REPEAT index 100
+variable        RDF_BINS index 300
+variable        DUMP_EVERY index 5000
+variable        RESTART_EVERY index 50000
+
+plugin          load ${PLUGIN}
+read_data       ${DATA}
+change_box      all triclinic
+
+mass            1 178.49
+mass            2 95.95
+mass            3 180.94788
+mass            4 47.867
+mass            5 91.224
+
+pair_style      deepmd ${MODEL}
+pair_coeff      * * Hf Mo Ta Ti Zr
+neighbor        2.5 bin
+neigh_modify    every 1 delay 0 check yes
+newton          on
+timestep        ${DT}
+
+thermo          ${THERMO_EVERY}
+thermo_style    custom step time atoms temp press pe ke etotal enthalpy vol density pxx pyy pzz pxy pxz pyz &
+                lx ly lz xy xz yz cella cellb cellc cellalpha cellbeta cellgamma
+thermo_modify   lost error norm no flush yes
+
+velocity        all zero linear
+reset_timestep  0
+fix             PROD all npt temp ${TEMP} ${TEMP} ${TDAMP} iso ${PRESS} ${PRESS} ${PDAMP}
+
+compute         phase_class all cna/atom ${CNA_CUTOFF}
+variable        is_unknown atom c_phase_class==5
+variable        is_bcc atom c_phase_class==3
+variable        is_fcc atom c_phase_class==1
+variable        is_hcp atom c_phase_class==2
+variable        is_ico atom c_phase_class==4
+compute         n_unknown all reduce sum v_is_unknown
+compute         n_bcc all reduce sum v_is_bcc
+compute         n_fcc all reduce sum v_is_fcc
+compute         n_hcp all reduce sum v_is_hcp
+compute         n_ico all reduce sum v_is_ico
+
+variable        sample_time equal step*dt
+variable        sample_atoms equal count(all)
+variable        sample_temp equal temp
+variable        sample_press equal press
+variable        sample_vol equal vol
+variable        sample_density equal density
+variable        sample_enthalpy equal enthalpy
+variable        sample_h2 equal enthalpy*enthalpy
+variable        sample_pe equal pe
+fix             THERMOSAMPLE all ave/time ${SAMPLE_EVERY} 1 ${SAMPLE_EVERY} &
+                v_sample_time v_sample_atoms v_sample_temp v_sample_press v_sample_vol &
+                v_sample_density v_sample_enthalpy v_sample_h2 v_sample_pe &
+                file thermo_samples.dat &
+                title1 "# NPT samples: metal units; pressure is bar" &
+                title2 "# Step time_ps natoms temperature_K pressure_bar volume_A3 density_g_cm3 enthalpy_eV enthalpy2_eV2 potential_energy_eV"
+
+variable        frac_unknown equal c_n_unknown/v_sample_atoms
+variable        frac_bcc equal c_n_bcc/v_sample_atoms
+variable        frac_fcc equal c_n_fcc/v_sample_atoms
+variable        frac_hcp equal c_n_hcp/v_sample_atoms
+variable        frac_ico equal c_n_ico/v_sample_atoms
+fix             STRUCTURESAMPLE all ave/time ${SAMPLE_EVERY} 1 ${SAMPLE_EVERY} &
+                v_sample_time v_sample_atoms v_frac_unknown v_frac_bcc v_frac_fcc &
+                v_frac_hcp v_frac_ico file structure_samples.dat &
+                title1 "# Fixed-cutoff CNA fractions; 1 FCC, 2 HCP, 3 BCC, 4 ICO, 5 unknown" &
+                title2 "# Step time_ps natoms fraction_unknown fraction_bcc fraction_fcc fraction_hcp fraction_ico"
+
+variable        cell_a equal cella
+variable        cell_b equal cellb
+variable        cell_c equal cellc
+variable        cell_alpha equal cellalpha
+variable        cell_beta equal cellbeta
+variable        cell_gamma equal cellgamma
+fix             CELLSAMPLE all ave/time ${SAMPLE_EVERY} 1 ${SAMPLE_EVERY} &
+                v_sample_time v_cell_a v_cell_b v_cell_c v_cell_alpha v_cell_beta &
+                v_cell_gamma file cell_samples.dat &
+                title1 "# Restricted-triclinic crystallographic cell metrics" &
+                title2 "# Step time_ps a_A b_A c_A alpha_deg beta_deg gamma_deg"
+
+compute         RDF all rdf ${RDF_BINS} &
+                1 1 1 2 1 3 1 4 1 5 &
+                2 2 2 3 2 4 2 5 &
+                3 3 3 4 3 5 &
+                4 4 4 5 &
+                5 5
+variable        RDF_FREQ equal ${RDF_EVERY}*${RDF_REPEAT}
+fix             RDFAVERAGE all ave/time ${RDF_EVERY} ${RDF_REPEAT} ${RDF_FREQ} &
+                c_RDF[*] file rdf.dat mode vector
+
+dump            TRAJ all custom ${DUMP_EVERY} trajectory_npt.lammpstrj &
+                id type element x y z ix iy iz vx vy vz fx fy fz c_phase_class
+dump_modify     TRAJ element Hf Mo Ta Ti Zr sort id
+restart         ${RESTART_EVERY} restart.npt.*
+
+run             ${N_PROD}
+
+write_data      npt_T${TEMP}.data nocoeff
+write_restart   npt_T${TEMP}.restart
+print           "Completed NPT production for ${ARCH} at ${TEMP} K and ${PRESS} bar"

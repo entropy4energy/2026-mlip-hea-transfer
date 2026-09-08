@@ -1,0 +1,56 @@
+# Ten-picosecond 1-fs NVE energy-drift qualification.
+
+clear
+units           metal
+dimension       3
+boundary        p p p
+atom_style      atomic
+atom_modify     map yes
+
+variable        MODEL index model.pth
+variable        PLUGIN index libdeepmd_lmp.so
+variable        DATA index equilibrated.data
+variable        MODEL_ID index DPA2__bcc_parent
+variable        ORIENTATION index 100
+variable        TEMP index 300.0
+variable        DT index 0.001
+variable        N_STEPS index 10000
+variable        SAMPLE_EVERY index 20
+variable        DUMP_EVERY index 500
+
+plugin          load ${PLUGIN}
+read_data       ${DATA}
+change_box      all triclinic
+mass            1 178.49
+mass            2 95.95
+mass            3 180.94788
+mass            4 47.867
+mass            5 91.224
+pair_style      deepmd ${MODEL}
+pair_coeff      * * Hf Mo Ta Ti Zr
+neighbor        2.5 bin
+neigh_modify    every 1 delay 0 check yes
+newton          on
+timestep        ${DT}
+reset_timestep  0
+velocity        all zero linear
+
+thermo          500
+thermo_style    custom step time atoms temp press pe ke etotal econserve vol density
+thermo_modify   lost error norm no flush yes
+variable        sample_time equal step*dt
+variable        sample_atoms equal count(all)
+variable        sample_temp equal temp
+variable        sample_press equal press
+variable        sample_pepa equal pe/atoms
+variable        sample_kepa equal ke/atoms
+variable        sample_etotalpa equal etotal/atoms
+fix             SAMPLES all ave/time ${SAMPLE_EVERY} 1 ${SAMPLE_EVERY} v_sample_time v_sample_atoms v_sample_temp v_sample_press v_sample_pepa v_sample_kepa v_sample_etotalpa file nve_energy_samples.dat title1 "# NVE qualification in LAMMPS metal units" title2 "# Step time_ps natoms temperature_K pressure_bar potential_eV_per_atom kinetic_eV_per_atom total_eV_per_atom"
+fix             INTEGRATE all nve
+dump            TRAJ all custom ${DUMP_EVERY} trajectory_nve.lammpstrj id type element x y z ix iy iz vx vy vz fx fy fz
+dump_modify     TRAJ element Hf Mo Ta Ti Zr sort id first yes
+run             ${N_STEPS}
+
+write_data      nve_final.data nocoeff
+write_restart   nve_final.restart
+print           "H100_CAMPAIGN_STAGE_COMPLETE nve ${ORIENTATION} ${TEMP}"

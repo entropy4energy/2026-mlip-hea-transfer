@@ -1,0 +1,4 @@
+architecture,representation,outer_cutoff_angstrom,angular_or_short_cutoff_angstrom,principal_dimensions,fitting_network,learning_rate,loss,primary_checkpoint,training_steps,seed
+DPA2,"repinit plus six-layer repformer",6,4,"type embedding 8; node 128; pair 32","240;240;240","exponential 1e-3 to 3.51e-8","energy prefactor 0.02 to 1; force 1000 to 1; virial 0.01 to 0.1","ordinary step 500000",500000,20260825
+DPA3,"six-layer representation flow",6,4,"node 128; edge 64; angle 32","240;240;240","exponential 1e-3 to 3e-5","energy prefactor 0.2 to 20; force 100 to 60; virial 0.01 to 0.1","ordinary step 500000",500000,20260825
+DPA4,"equivariant SO(3), two blocks",6,,"channels 32; lmax 3; mmax 1; radial 16","native scalar readout","WSD cosine 4.5e-4 to 1e-6; 5000-step warmup","MAE; normalized force; energy/force/virial weights 20/20/0.1","EMA step 500000; decay 0.999",500000,20260825

@@ -1,0 +1,144 @@
+# Zero-temperature atom/cell relaxation with an explicit coupled-convergence loop.
+# This corrected input supersedes 02_relax.in only for plans that bind it by hash.
+
+clear
+units           metal
+dimension       3
+boundary        p p p
+atom_style      atomic
+atom_modify     map yes
+
+variable        MODEL index model.pth
+variable        PLUGIN index libdeepmd_lmp.so
+variable        DATA index structure.data
+variable        ARCH index unknown
+variable        MODEL_ID index unknown
+variable        PHASE index unknown
+variable        CNA_CUTOFF index 4.16452
+variable        P_TARGET index 0.0
+variable        CELL_RELAX index tri
+variable        ETOL index 0.0
+variable        FTOL index 1.0e-4
+variable        MAXITER index 20000
+variable        MAXEVAL index 200000
+variable        DMAX index 0.05
+variable        MAX_RELAX_CYCLES index 12
+variable        MAX_FINAL_FORCE index 0.01
+variable        MAX_PRESSURE_ERROR_GPA index 0.05
+variable        MAX_DEVIATORIC_STRESS_GPA index 0.05
+
+plugin          load ${PLUGIN}
+read_data       ${DATA}
+change_box      all triclinic
+
+mass            1 178.49
+mass            2 95.95
+mass            3 180.94788
+mass            4 47.867
+mass            5 91.224
+
+pair_style      deepmd ${MODEL}
+pair_coeff      * * Hf Mo Ta Ti Zr
+
+neighbor        2.5 bin
+neigh_modify    every 1 delay 0 check yes
+newton          on
+
+thermo          10
+thermo_style    custom step atoms pe press pxx pyy pzz pxy pxz pyz lx ly lz xy xz yz &
+                cella cellb cellc cellalpha cellbeta cellgamma vol density fmax fnorm
+thermo_modify   lost error norm no flush yes
+
+min_style       cg
+min_modify      dmax ${DMAX} line quadratic
+
+# First remove the largest local forces without changing the box.
+minimize        ${ETOL} ${FTOL} ${MAXITER} ${MAXEVAL}
+
+# These equal-style variables are evaluated after every complete box+atom cycle.
+# Deviatoric normal components subtract the instantaneous hydrostatic pressure;
+# shear pressure components are already purely deviatoric.
+variable        final_force equal fmax
+variable        pressure_error_GPa equal abs(press-${P_TARGET})*1.0e-4
+variable        pxx_deviatoric_GPa equal abs(pxx-press)*1.0e-4
+variable        pyy_deviatoric_GPa equal abs(pyy-press)*1.0e-4
+variable        pzz_deviatoric_GPa equal abs(pzz-press)*1.0e-4
+variable        pxy_deviatoric_GPa equal abs(pxy)*1.0e-4
+variable        pxz_deviatoric_GPa equal abs(pxz)*1.0e-4
+variable        pyz_deviatoric_GPa equal abs(pyz)*1.0e-4
+variable        max_dev_normal_xy equal 0.5*(v_pxx_deviatoric_GPa+v_pyy_deviatoric_GPa+abs(v_pxx_deviatoric_GPa-v_pyy_deviatoric_GPa))
+variable        max_dev_normal equal 0.5*(v_max_dev_normal_xy+v_pzz_deviatoric_GPa+abs(v_max_dev_normal_xy-v_pzz_deviatoric_GPa))
+variable        max_dev_shear_xy equal 0.5*(v_pxy_deviatoric_GPa+v_pxz_deviatoric_GPa+abs(v_pxy_deviatoric_GPa-v_pxz_deviatoric_GPa))
+variable        max_dev_shear equal 0.5*(v_max_dev_shear_xy+v_pyz_deviatoric_GPa+abs(v_max_dev_shear_xy-v_pyz_deviatoric_GPa))
+variable        max_deviatoric_stress_GPa equal 0.5*(v_max_dev_normal+v_max_dev_shear+abs(v_max_dev_normal-v_max_dev_shear))
+
+print           "cycle,max_force_component_eV_A,pressure_error_GPa,max_deviatoric_stress_GPa,volume_A3_per_atom" file relax_convergence.csv screen no
+
+# Resetting fix box/relax on each pass resets its reference cell. The atom-only
+# minimization is inside the loop because it can perturb pressure after the box
+# has converged. Only a state satisfying every gate exits early.
+variable        relax_cycle loop ${MAX_RELAX_CYCLES}
+label           COUPLED_RELAX_LOOP
+fix             CELL all box/relax ${CELL_RELAX} ${P_TARGET} vmax 0.001
+minimize        ${ETOL} ${FTOL} ${MAXITER} ${MAXEVAL}
+unfix           CELL
+minimize        ${ETOL} ${FTOL} ${MAXITER} ${MAXEVAL}
+fix             EVALUATE_CYCLE all nve
+run             0 post no
+unfix           EVALUATE_CYCLE
+print           "${relax_cycle},${final_force},${pressure_error_GPa},${max_deviatoric_stress_GPa},$(vol/atoms)" append relax_convergence.csv screen yes
+if              "${final_force} <= ${MAX_FINAL_FORCE} && ${pressure_error_GPa} <= ${MAX_PRESSURE_ERROR_GPA} && ${max_deviatoric_stress_GPa} <= ${MAX_DEVIATORIC_STRESS_GPA}" then "jump SELF COUPLED_RELAX_DONE"
+next            relax_cycle
+jump            SELF COUPLED_RELAX_LOOP
+label           COUPLED_RELAX_DONE
+
+# Re-evaluate without changing the accepted state and enforce the gates even
+# when the fixed maximum number of cycles was exhausted.
+fix             EVALUATE all nve
+run             0 post no
+
+compute         phase_class all cna/atom ${CNA_CUTOFF}
+variable        is_unknown atom c_phase_class==5
+variable        is_bcc atom c_phase_class==3
+variable        is_fcc atom c_phase_class==1
+variable        is_hcp atom c_phase_class==2
+variable        is_ico atom c_phase_class==4
+compute         n_unknown all reduce sum v_is_unknown
+compute         n_bcc all reduce sum v_is_bcc
+compute         n_fcc all reduce sum v_is_fcc
+compute         n_hcp all reduce sum v_is_hcp
+compute         n_ico all reduce sum v_is_ico
+run             0 post no
+unfix           EVALUATE
+
+if              "${final_force} > ${MAX_FINAL_FORCE}" then &
+                "print 'ERROR: final maximum force component ${final_force} eV/A exceeds ${MAX_FINAL_FORCE} eV/A after ${MAX_RELAX_CYCLES} coupled cycles'" &
+                "quit 2"
+if              "${pressure_error_GPa} > ${MAX_PRESSURE_ERROR_GPA}" then &
+                "print 'ERROR: final hydrostatic pressure error ${pressure_error_GPa} GPa exceeds ${MAX_PRESSURE_ERROR_GPA} GPa after ${MAX_RELAX_CYCLES} coupled cycles'" &
+                "quit 2"
+if              "${max_deviatoric_stress_GPa} > ${MAX_DEVIATORIC_STRESS_GPA}" then &
+                "print 'ERROR: final maximum deviatoric stress ${max_deviatoric_stress_GPa} GPa exceeds ${MAX_DEVIATORIC_STRESS_GPA} GPa after ${MAX_RELAX_CYCLES} coupled cycles'" &
+                "quit 2"
+
+variable        nat equal atoms
+variable        epa equal pe/atoms
+variable        vpa equal vol/atoms
+variable        rho equal density
+variable        sxx equal -pxx*1.0e-4
+variable        syy equal -pyy*1.0e-4
+variable        szz equal -pzz*1.0e-4
+variable        sxy equal -pxy*1.0e-4
+variable        sxz equal -pxz*1.0e-4
+variable        syz equal -pyz*1.0e-4
+variable        frac_unknown equal c_n_unknown/v_nat
+variable        frac_bcc equal c_n_bcc/v_nat
+variable        frac_fcc equal c_n_fcc/v_nat
+variable        frac_hcp equal c_n_hcp/v_nat
+variable        frac_ico equal c_n_ico/v_nat
+
+print           "model_id,architecture,phase,model,data,natoms,energy_eV_per_atom,volume_A3_per_atom,density_g_cm3,sxx_GPa,syy_GPa,szz_GPa,sxy_GPa,sxz_GPa,syz_GPa,lx_A,ly_A,lz_A,xy_A,xz_A,yz_A,max_force_component_eV_A,pressure_error_GPa,max_deviatoric_stress_GPa,classifier,cna_cutoff_A,fraction_unknown,fraction_bcc,fraction_fcc,fraction_hcp,fraction_ico" file relax_summary.csv screen no
+print           "${MODEL_ID},${ARCH},${PHASE},${MODEL},${DATA},${nat},${epa},${vpa},${rho},${sxx},${syy},${szz},${sxy},${sxz},${syz},$(lx),$(ly),$(lz),$(xy),$(xz),$(yz),${final_force},${pressure_error_GPa},${max_deviatoric_stress_GPa},cna_atom,${CNA_CUTOFF},${frac_unknown},${frac_bcc},${frac_fcc},${frac_hcp},${frac_ico}" append relax_summary.csv screen yes
+
+write_data      relaxed.data nocoeff
+write_restart   relaxed.restart

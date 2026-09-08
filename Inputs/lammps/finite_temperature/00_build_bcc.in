@@ -1,0 +1,69 @@
+# Build a periodic, exactly equiatomic random BCC Hf-Mo-Ta-Ti-Zr cell.
+# Override defaults with, for example:
+#   lmp -var A0 3.45 -var NX 10 -var NY 10 -var NZ 10 -var SEED 20260825 \
+#       -in 00_build_bcc.in
+# The atom-type contract used by every production input is:
+#   1=Hf, 2=Mo, 3=Ta, 4=Ti, 5=Zr
+
+clear
+units           metal
+dimension       3
+boundary        p p p
+atom_style      atomic
+
+variable        A0 index 3.45
+variable        NX index 10
+variable        NY index 10
+variable        NZ index 10
+variable        SEED index 20260825
+
+lattice         bcc ${A0}
+region          simulation block 0 ${NX} 0 ${NY} 0 ${NZ} units lattice
+create_box      5 simulation
+create_atoms    1 box
+
+variable        initial_atoms equal count(all)
+variable        count_remainder equal v_initial_atoms-5.0*floor(v_initial_atoms/5.0)
+if              "${count_remainder} != 0" then &
+                "print 'ERROR: BCC atom count ${initial_atoms} is not divisible by five'" &
+                "quit 2"
+
+mass            1 178.49
+mass            2 95.95
+mass            3 180.94788
+mass            4 47.867
+mass            5 91.224
+
+# Sequential exact ratios leave exactly 20% of the original population in
+# each type when the atom count is divisible by five.
+variable        seed2 equal ${SEED}+101
+variable        seed3 equal ${SEED}+211
+variable        seed4 equal ${SEED}+307
+variable        seed5 equal ${SEED}+401
+set             type 1 type/ratio 2 0.2 ${seed2}
+set             type 1 type/ratio 3 0.25 ${seed3}
+set             type 1 type/ratio 4 0.3333333333333333 ${seed4}
+set             type 1 type/ratio 5 0.5 ${seed5}
+
+group           Hf type 1
+group           Mo type 2
+group           Ta type 3
+group           Ti type 4
+group           Zr type 5
+
+variable        nall equal count(all)
+variable        nHf equal count(Hf)
+variable        nMo equal count(Mo)
+variable        nTa equal count(Ta)
+variable        nTi equal count(Ti)
+variable        nZr equal count(Zr)
+variable        count_error equal abs(v_nHf-v_nall/5.0)+abs(v_nMo-v_nall/5.0)+abs(v_nTa-v_nall/5.0)+abs(v_nTi-v_nall/5.0)+abs(v_nZr-v_nall/5.0)
+if              "${count_error} > 0.1" then &
+                "print 'ERROR: exact equiatomic assignment failed'" &
+                "quit 2"
+
+print           "natoms,n_Hf,n_Mo,n_Ta,n_Ti,n_Zr,a0_A,nx,ny,nz,seed" file build_summary.csv screen no
+print           "${nall},${nHf},${nMo},${nTa},${nTi},${nZr},${A0},${NX},${NY},${NZ},${SEED}" append build_summary.csv screen yes
+
+write_data      initial_bcc.data nocoeff
+print           "Wrote initial_bcc.data with atom types 1=Hf 2=Mo 3=Ta 4=Ti 5=Zr"

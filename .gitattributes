@@ -1,0 +1,7 @@
+* text=auto
+*.gz binary
+*.hdf5 binary
+*.npy binary
+*.pt binary
+*.pt2 binary
+*.pth binary

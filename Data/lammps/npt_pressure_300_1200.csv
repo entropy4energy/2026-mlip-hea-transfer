@@ -1,0 +1,13 @@
+model_id,architecture,training_parent,simulated_phase,temperature_K,planned_chemical_replicas,eligible_chemical_replicas,status,source,ci_method,pressure_GPa_mean,pressure_GPa_mean_sd,pressure_GPa_mean_ci95_low,pressure_GPa_mean_ci95_high
+DPA2__bcc_parent,DPA2,bcc,bcc,300,3,3,eligible,A11,"two-sided Student-t, df=2",-0.00017637651736666652,0.0011481215558352023,-0.0030284685719976154,0.002675715537264282
+DPA2__bcc_parent,DPA2,bcc,bcc,1200,3,3,eligible,A11,"two-sided Student-t, df=2",-0.001405427419066667,0.001466213624078303,-0.005047703976258679,0.0022368491381253445
+DPA2__fcc_parent,DPA2,fcc,fcc,300,3,0,blocked_incomplete_a21_group,upstream_or_length_blocked,"two-sided Student-t, df=2",,,,
+DPA2__fcc_parent,DPA2,fcc,fcc,1200,3,0,blocked_incomplete_a21_group,upstream_or_length_blocked,"two-sided Student-t, df=2",,,,
+DPA3__bcc_parent,DPA3,bcc,bcc,300,3,3,eligible,A11,"two-sided Student-t, df=2",0.00024524715683333346,0.0006159436552869487,-0.0012848417056358645,0.0017753360193025315
+DPA3__bcc_parent,DPA3,bcc,bcc,1200,3,3,eligible,A11,"two-sided Student-t, df=2",-0.00038675278133333345,0.0013569261439258732,-0.003757544187646319,0.0029840386249796523
+DPA3__fcc_parent,DPA3,fcc,fcc,300,3,0,blocked_incomplete_a21_group,upstream_or_length_blocked,"two-sided Student-t, df=2",,,,
+DPA3__fcc_parent,DPA3,fcc,fcc,1200,3,0,blocked_incomplete_a21_group,upstream_or_length_blocked,"two-sided Student-t, df=2",,,,
+DPA4__bcc_parent,DPA4,bcc,bcc,300,3,3,eligible,A11,"two-sided Student-t, df=2",0.0004210028897666662,0.0006888245115635167,-0.0012901320562506188,0.0021321378357839513
+DPA4__bcc_parent,DPA4,bcc,bcc,1200,3,3,eligible,A21_fresh_100ps_length_resolution,"two-sided Student-t, df=2",-0.0006643568768666667,0.00555224055966762,-0.014456887036365468,0.013128173282632133
+DPA4__fcc_parent,DPA4,fcc,fcc,300,3,3,eligible,A11,"two-sided Student-t, df=2",-0.0001698205559333338,0.00043208995928735954,-0.0012431915187080954,0.0009035504068414278
+DPA4__fcc_parent,DPA4,fcc,fcc,1200,3,0,blocked_incomplete_a21_group,upstream_or_length_blocked,"two-sided Student-t, df=2",,,,

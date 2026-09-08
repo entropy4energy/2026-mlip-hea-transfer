@@ -1,0 +1,48 @@
+cff-version: 1.2.0
+message: "If you use these inputs or data, please cite the associated article."
+title: "2026 MLIP HEA Transfer: data and inputs for cross-lattice transfer and molecular-dynamics deployment of machine-learning interatomic potentials in HfMoTaTiZr"
+type: dataset
+authors:
+  - family-names: Hu
+    given-names: Jiayue
+  - family-names: Peiris
+    given-names: M.D. Hashan C.
+  - family-names: Singh
+    given-names: Shubham
+  - family-names: Maranets
+    given-names: Theodore
+  - family-names: Mukhopadhyaya
+    given-names: Aritra
+  - family-names: Xu
+    given-names: Xiao
+  - family-names: Li
+    given-names: Tianhao
+  - family-names: Tseng
+    given-names: Shao-Yu
+  - family-names: Oses
+    given-names: Corey
+    email: corey@jhu.edu
+repository-code: "https://github.com/entropy4energy/2026-mlip-hea-transfer"
+preferred-citation:
+  type: article
+  title: "From Training Data to Molecular-Dynamics Deployment: Transfer of Machine-Learning Interatomic Potentials in a Refractory High-Entropy Alloy"
+  year: 2026
+  authors:
+    - family-names: Hu
+      given-names: Jiayue
+    - family-names: Peiris
+      given-names: M.D. Hashan C.
+    - family-names: Singh
+      given-names: Shubham
+    - family-names: Maranets
+      given-names: Theodore
+    - family-names: Mukhopadhyaya
+      given-names: Aritra
+    - family-names: Xu
+      given-names: Xiao
+    - family-names: Li
+      given-names: Tianhao
+    - family-names: Tseng
+      given-names: Shao-Yu
+    - family-names: Oses
+      given-names: Corey

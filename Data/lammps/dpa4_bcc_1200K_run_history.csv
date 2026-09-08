@@ -1,0 +1,10 @@
+cohort,chemical_seed,velocity_seed,production_ps,averaging_window,temperature_K_mean,pressure_GPa_mean,volume_A3_per_atom_mean,density_g_cm3_mean,volume_length_check,density_length_check,reported_status
+original,20260825,20260901,100.0,primary first 50 ps,1199.0890599999998,-0.001967534658000001,19.744995499999998,9.999103499999999,false,false,withheld: length convergence
+original,20260825,20260903,50.0,primary first 50 ps,1199.72026,-0.00043498585440000147,19.7482502,9.997453440000001,not applicable,not applicable,eligible
+original,20262843,20260901,50.0,primary first 50 ps,1199.69026,-0.0022761240419999986,19.750765799999996,9.996182079999999,not applicable,not applicable,eligible
+original,20262843,20260903,50.0,primary first 50 ps,1201.24444,0.002385395145999996,19.7523998,9.9953491,not applicable,not applicable,eligible
+original,20264861,20260901,100.0,primary first 50 ps,1198.504,0.0029619458320000016,19.7546377,9.994216,true,true,eligible
+original,20264861,20260903,50.0,primary first 50 ps,1200.85288,-0.0016878616440000002,19.7545269,9.99428484,not applicable,not applicable,eligible
+follow-up,20260825,20260905,100.0,final 50 ps,1201.4023200000001,-0.0031798893860000006,19.748391299999998,9.99737896,true,true,eligible
+follow-up,20262843,20260905,100.0,final 50 ps,1201.55232,-0.0045135904636,19.7524185,9.99534836,true,true,eligible
+follow-up,20264861,20260905,100.0,final 50 ps,1198.78818,0.0057004092190000005,19.7552247,9.993926940000001,true,true,eligible

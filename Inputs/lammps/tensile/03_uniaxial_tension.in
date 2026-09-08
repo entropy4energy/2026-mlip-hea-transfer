@@ -1,0 +1,80 @@
+# Finite-rate x-axis tension with zero y/z target pressure.
+
+clear
+units           metal
+dimension       3
+boundary        p p p
+atom_style      atomic
+atom_modify     map yes
+
+variable        MODEL index model.pth
+variable        PLUGIN index libdeepmd_lmp.so
+variable        DATA index equilibrated.data
+variable        MODEL_ID index DPA2__bcc_parent
+variable        ORIENTATION index 100
+variable        TEMP index 300.0
+variable        PRESS index 0.0
+variable        RATE index 0.005
+variable        DT index 0.001
+variable        TDAMP index 0.1
+variable        PDAMP index 1.0
+variable        N_STEPS index 40000
+variable        TARGET_STRAIN index 0.20
+variable        SAMPLE_EVERY index 20
+variable        DUMP_EVERY index 200
+variable        RESTART_EVERY index 10000
+variable        CNA_CUTOFF index 4.16452
+
+plugin          load ${PLUGIN}
+read_data       ${DATA}
+change_box      all triclinic
+mass            1 178.49
+mass            2 95.95
+mass            3 180.94788
+mass            4 47.867
+mass            5 91.224
+pair_style      deepmd ${MODEL}
+pair_coeff      * * Hf Mo Ta Ti Zr
+neighbor        2.5 bin
+neigh_modify    every 1 delay 0 check yes
+newton          on
+timestep        ${DT}
+reset_timestep  0
+
+variable        LX0 equal $(lx)
+variable        LY0 equal $(ly)
+variable        LZ0 equal $(lz)
+variable        strain equal (lx-v_LX0)/v_LX0
+variable        lateral_y equal (ly-v_LY0)/v_LY0
+variable        lateral_z equal (lz-v_LZ0)/v_LZ0
+variable        sxx equal -pxx*1.0e-4
+variable        syy equal -pyy*1.0e-4
+variable        szz equal -pzz*1.0e-4
+variable        sxy equal -pxy*1.0e-4
+variable        sxz equal -pxz*1.0e-4
+variable        syz equal -pyz*1.0e-4
+variable        sample_time equal step*dt
+variable        sample_temp equal temp
+variable        sample_pepa equal pe/atoms
+variable        sample_vpa equal vol/atoms
+
+fix             THERMOBARO all npt temp ${TEMP} ${TEMP} ${TDAMP} y ${PRESS} ${PRESS} ${PDAMP} z ${PRESS} ${PRESS} ${PDAMP} couple none
+fix             DEFORM all deform 1 x erate ${RATE} units box remap x
+fix             CURVE all ave/time ${SAMPLE_EVERY} 1 ${SAMPLE_EVERY} v_sample_time v_strain v_lateral_y v_lateral_z v_sample_temp v_sxx v_syy v_szz v_sxy v_sxz v_syz v_sample_pepa v_sample_vpa file stress_strain.dat title1 "# Engineering strain; Cauchy stress is tension-positive in GPa" title2 "# Step time_ps strain lateral_y lateral_z temperature_K sxx_GPa syy_GPa szz_GPa sxy_GPa sxz_GPa syz_GPa potential_eV_per_atom volume_A3_per_atom"
+
+compute         pe_atom all pe/atom
+compute         stress_atom all centroid/stress/atom NULL
+compute         phase_class all cna/atom ${CNA_CUTOFF}
+dump            TRAJ all custom ${DUMP_EVERY} trajectory_tension.lammpstrj id type element x y z ix iy iz vx vy vz fx fy fz c_pe_atom c_stress_atom[1] c_stress_atom[2] c_stress_atom[3] c_stress_atom[4] c_stress_atom[5] c_stress_atom[6] c_phase_class
+dump_modify     TRAJ element Hf Mo Ta Ti Zr sort id first yes
+restart         ${RESTART_EVERY} restart.tension.*
+
+thermo          1000
+thermo_style    custom step time atoms temp pxx pyy pzz pxy pxz pyz v_strain v_sxx v_syy v_szz pe ke etotal lx ly lz vol
+thermo_modify   lost error norm no flush yes
+run             ${N_STEPS}
+
+if              "${strain} < 0.1998" then "print 'ERROR: target strain was not reached'" "quit 2"
+write_data      tension_final.data nocoeff
+write_restart   tension_final.restart
+print           "H100_CAMPAIGN_STAGE_COMPLETE tension ${ORIENTATION} ${TEMP} ${RATE}"

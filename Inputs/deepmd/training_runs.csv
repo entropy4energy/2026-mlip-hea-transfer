@@ -1,0 +1,16 @@
+run_id,architecture,training_parent,held_out_parent,training_data,steps,seed
+DPA2__bcc_to_fcc__pure_pocc_aimd,DPA2,bcc,fcc,elemental+pocc_full_trajectory,500000,20260825
+DPA2__bcc_to_fcc__pure_pocc_seed,DPA2,bcc,fcc,elemental+pocc_first_frame,500000,20260825
+DPA2__fcc_to_bcc__pure_pocc_aimd,DPA2,fcc,bcc,elemental+pocc_full_trajectory,500000,20260825
+DPA2__fcc_to_bcc__pure_pocc_seed,DPA2,fcc,bcc,elemental+pocc_first_frame,500000,20260825
+DPA2__pure,DPA2,none,none,elemental,500000,20260825
+DPA3__bcc_to_fcc__pure_pocc_aimd,DPA3,bcc,fcc,elemental+pocc_full_trajectory,500000,20260825
+DPA3__bcc_to_fcc__pure_pocc_seed,DPA3,bcc,fcc,elemental+pocc_first_frame,500000,20260825
+DPA3__fcc_to_bcc__pure_pocc_aimd,DPA3,fcc,bcc,elemental+pocc_full_trajectory,500000,20260825
+DPA3__fcc_to_bcc__pure_pocc_seed,DPA3,fcc,bcc,elemental+pocc_first_frame,500000,20260825
+DPA3__pure,DPA3,none,none,elemental,500000,20260825
+DPA4__bcc_to_fcc__pure_pocc_aimd,DPA4,bcc,fcc,elemental+pocc_full_trajectory,500000,20260825
+DPA4__bcc_to_fcc__pure_pocc_seed,DPA4,bcc,fcc,elemental+pocc_first_frame,500000,20260825
+DPA4__fcc_to_bcc__pure_pocc_aimd,DPA4,fcc,bcc,elemental+pocc_full_trajectory,500000,20260825
+DPA4__fcc_to_bcc__pure_pocc_seed,DPA4,fcc,bcc,elemental+pocc_first_frame,500000,20260825
+DPA4__pure,DPA4,none,none,elemental,500000,20260825

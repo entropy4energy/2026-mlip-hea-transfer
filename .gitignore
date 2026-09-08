@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.venv/
+*.log
+.DS_Store
+*.tmp
+*.pt
+*.pt2
+*.pth
+*.hdf5
+*.npy

@@ -1,0 +1,11 @@
+[project]
+name = "2026-mlip-hea-transfer"
+version = "0.1.0"
+description = "Data, inputs, and analysis pipeline for cross-lattice transfer and molecular-dynamics deployment of machine-learning interatomic potentials in HfMoTaTiZr"
+requires-python = ">=3.13"
+dependencies = [
+    "numpy",
+    "pandas",
+    "scipy",
+    "matplotlib",
+]

@@ -1,0 +1,100 @@
+# NPT equilibration that must pass a stationarity gate before NPT production.
+
+clear
+units           metal
+dimension       3
+boundary        p p p
+atom_style      atomic
+atom_modify     map yes
+
+variable        MODEL index model.pth
+variable        PLUGIN index libdeepmd_lmp.so
+variable        DATA index relaxed.data
+variable        ARCH index unknown
+variable        MODEL_ID index unknown
+variable        PHASE index unknown
+variable        CNA_CUTOFF index 4.16452
+variable        TEMP index 300.0
+variable        PRESS index 0.0
+variable        SEED index 20260901
+variable        DT index 0.001
+variable        TDAMP index 0.1
+variable        PDAMP index 1.0
+variable        N_EQ index 40000
+variable        THERMO_EVERY index 1000
+variable        SAMPLE_EVERY index 100
+variable        DUMP_EVERY index 2000
+variable        RESTART_EVERY index 25000
+
+plugin          load ${PLUGIN}
+read_data       ${DATA}
+change_box      all triclinic
+
+mass            1 178.49
+mass            2 95.95
+mass            3 180.94788
+mass            4 47.867
+mass            5 91.224
+
+pair_style      deepmd ${MODEL}
+pair_coeff      * * Hf Mo Ta Ti Zr
+neighbor        2.5 bin
+neigh_modify    every 1 delay 0 check yes
+newton          on
+timestep        ${DT}
+
+thermo          ${THERMO_EVERY}
+thermo_style    custom step time atoms temp press pe ke etotal enthalpy vol density &
+                pxx pyy pzz pxy pxz pyz lx ly lz xy xz yz
+thermo_modify   lost error norm no flush yes
+
+compute         phase_class all cna/atom ${CNA_CUTOFF}
+variable        sample_time equal step*dt
+variable        sample_atoms equal count(all)
+variable        sample_temp equal temp
+variable        sample_press equal press
+variable        sample_pepa equal pe/atoms
+variable        sample_etotalpa equal etotal/atoms
+variable        sample_vpa equal vol/atoms
+variable        sample_density equal density
+fix             EQUILSAMPLE all ave/time ${SAMPLE_EVERY} 1 ${SAMPLE_EVERY} &
+                v_sample_time v_sample_atoms v_sample_temp v_sample_press &
+                v_sample_pepa v_sample_etotalpa v_sample_vpa v_sample_density &
+                file equilibration_samples.dat &
+                title1 "# NPT equilibration samples in LAMMPS metal units" &
+                title2 "# Step time_ps natoms temperature_K pressure_bar potential_eV_per_atom total_eV_per_atom volume_A3_per_atom density_g_cm3"
+
+variable        is_unknown atom c_phase_class==5
+variable        is_bcc atom c_phase_class==3
+variable        is_fcc atom c_phase_class==1
+variable        is_hcp atom c_phase_class==2
+variable        is_ico atom c_phase_class==4
+compute         n_unknown all reduce sum v_is_unknown
+compute         n_bcc all reduce sum v_is_bcc
+compute         n_fcc all reduce sum v_is_fcc
+compute         n_hcp all reduce sum v_is_hcp
+compute         n_ico all reduce sum v_is_ico
+variable        frac_unknown equal c_n_unknown/v_sample_atoms
+variable        frac_bcc equal c_n_bcc/v_sample_atoms
+variable        frac_fcc equal c_n_fcc/v_sample_atoms
+variable        frac_hcp equal c_n_hcp/v_sample_atoms
+variable        frac_ico equal c_n_ico/v_sample_atoms
+fix             STRUCTURESAMPLE all ave/time ${SAMPLE_EVERY} 1 ${SAMPLE_EVERY} &
+                v_sample_time v_sample_atoms v_frac_unknown v_frac_bcc v_frac_fcc &
+                v_frac_hcp v_frac_ico file equilibration_structure_samples.dat &
+                title1 "# Fixed-cutoff CNA fractions during NPT equilibration" &
+                title2 "# Step time_ps natoms fraction_unknown fraction_bcc fraction_fcc fraction_hcp fraction_ico"
+
+velocity        all create ${TEMP} ${SEED} mom yes rot yes dist gaussian
+fix             EQUILIBRATE all npt temp ${TEMP} ${TEMP} ${TDAMP} iso ${PRESS} ${PRESS} ${PDAMP}
+dump            TRAJ all custom ${DUMP_EVERY} trajectory_equilibration_npt.lammpstrj &
+                id type element x y z ix iy iz c_phase_class
+dump_modify     TRAJ element Hf Mo Ta Ti Zr sort id
+restart         ${RESTART_EVERY} restart.equil_npt.*
+run             ${N_EQ}
+unfix           EQUILIBRATE
+velocity        all zero linear
+
+write_data      equilibrated.data nocoeff
+write_restart   equilibrated.restart
+print           "Completed NPT equilibration for ${MODEL_ID} ${PHASE} at ${TEMP} K and ${PRESS} bar"

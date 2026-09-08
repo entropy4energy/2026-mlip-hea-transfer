@@ -1,0 +1,91 @@
+model_id,architecture,training_parent,training_relation,phase,planned_chemical_replicas,eligible_chemical_replicas,scientific_status,endpoint,mean,sample_standard_deviation,ci95_lower,ci95_upper,ci_method
+DPA2__bcc_parent,DPA2,bcc,phase_native,bcc,5,5,eligible_balanced,energy_eV_per_atom,-9.743786499800748,0.001150085377455502,-9.745214519408796,-9.742358480192701,"two-sided Student-t, df=4"
+DPA2__bcc_parent,DPA2,bcc,phase_native,bcc,5,5,eligible_balanced,volume_A3_per_atom,19.0688141656802,0.007084102199315059,19.060018091019717,19.077610240340686,"two-sided Student-t, df=4"
+DPA2__bcc_parent,DPA2,bcc,phase_native,bcc,5,5,eligible_balanced,density_g_cm3,10.3536110674949,0.003845841579900076,10.348835824462343,10.358386310527456,"two-sided Student-t, df=4"
+DPA2__bcc_parent,DPA2,bcc,phase_native,bcc,5,5,eligible_balanced,max_force_eV_per_A,0.002140898717334496,0.001741002610450732,-2.0841544840954646e-05,0.004302638979509946,"two-sided Student-t, df=4"
+DPA2__bcc_parent,DPA2,bcc,phase_native,bcc,5,5,eligible_balanced,pressure_error_GPa,0.02207683851028848,0.009648383414984295,0.01009678818303617,0.03405688883754079,"two-sided Student-t, df=4"
+DPA2__bcc_parent,DPA2,bcc,phase_native,bcc,5,5,eligible_balanced,max_stress_error_GPa,0.09647216639978304,0.03421675004390246,0.053986459734732206,0.13895787306483387,"two-sided Student-t, df=4"
+DPA2__bcc_parent,DPA2,bcc,phase_native,bcc,5,5,eligible_balanced,fraction_bcc,0.9778,0.0038503246616357106,0.9730191904862509,0.9825808095137492,"two-sided Student-t, df=4"
+DPA2__bcc_parent,DPA2,bcc,reciprocal_alarm,fcc,5,0,blocked_incomplete,energy_eV_per_atom,,,,,blocked: incomplete five-decoration matrix
+DPA2__bcc_parent,DPA2,bcc,reciprocal_alarm,fcc,5,0,blocked_incomplete,volume_A3_per_atom,,,,,blocked: incomplete five-decoration matrix
+DPA2__bcc_parent,DPA2,bcc,reciprocal_alarm,fcc,5,0,blocked_incomplete,density_g_cm3,,,,,blocked: incomplete five-decoration matrix
+DPA2__bcc_parent,DPA2,bcc,reciprocal_alarm,fcc,5,0,blocked_incomplete,max_force_eV_per_A,,,,,blocked: incomplete five-decoration matrix
+DPA2__bcc_parent,DPA2,bcc,reciprocal_alarm,fcc,5,0,blocked_incomplete,pressure_error_GPa,,,,,blocked: incomplete five-decoration matrix
+DPA2__bcc_parent,DPA2,bcc,reciprocal_alarm,fcc,5,0,blocked_incomplete,max_stress_error_GPa,,,,,blocked: incomplete five-decoration matrix
+DPA2__bcc_parent,DPA2,bcc,reciprocal_alarm,fcc,5,0,blocked_incomplete,fraction_fcc,,,,,blocked: incomplete five-decoration matrix
+DPA2__fcc_parent,DPA2,fcc,reciprocal_alarm,bcc,5,5,eligible_balanced,energy_eV_per_atom,-9.75595571600966,0.0010052421034080009,-9.75720388893894,-9.75470754308038,"two-sided Student-t, df=4"
+DPA2__fcc_parent,DPA2,fcc,reciprocal_alarm,bcc,5,5,eligible_balanced,volume_A3_per_atom,18.91497816126856,0.010617048944387598,18.901795353827147,18.928160968709975,"two-sided Student-t, df=4"
+DPA2__fcc_parent,DPA2,fcc,reciprocal_alarm,bcc,5,5,eligible_balanced,density_g_cm3,10.43781873203586,0.005860081317929932,10.43054248003684,10.44509498403488,"two-sided Student-t, df=4"
+DPA2__fcc_parent,DPA2,fcc,reciprocal_alarm,bcc,5,5,eligible_balanced,max_force_eV_per_A,0.003417808545054866,0.000537255519848679,0.002750717708222512,0.004084899381887219,"two-sided Student-t, df=4"
+DPA2__fcc_parent,DPA2,fcc,reciprocal_alarm,bcc,5,5,eligible_balanced,pressure_error_GPa,0.010519765288325206,0.011323584217510563,-0.0035403215651860272,0.024579852141836438,"two-sided Student-t, df=4"
+DPA2__fcc_parent,DPA2,fcc,reciprocal_alarm,bcc,5,5,eligible_balanced,max_stress_error_GPa,0.11256238061846938,0.014494900881533308,0.09456458403633743,0.1305601772006013,"two-sided Student-t, df=4"
+DPA2__fcc_parent,DPA2,fcc,reciprocal_alarm,bcc,5,5,eligible_balanced,fraction_bcc,0.9964000000000001,0.002509980079602229,0.9932834480989493,0.9995165519010508,"two-sided Student-t, df=4"
+DPA2__fcc_parent,DPA2,fcc,phase_native,fcc,5,0,blocked_incomplete,energy_eV_per_atom,,,,,blocked: incomplete five-decoration matrix
+DPA2__fcc_parent,DPA2,fcc,phase_native,fcc,5,0,blocked_incomplete,volume_A3_per_atom,,,,,blocked: incomplete five-decoration matrix
+DPA2__fcc_parent,DPA2,fcc,phase_native,fcc,5,0,blocked_incomplete,density_g_cm3,,,,,blocked: incomplete five-decoration matrix
+DPA2__fcc_parent,DPA2,fcc,phase_native,fcc,5,0,blocked_incomplete,max_force_eV_per_A,,,,,blocked: incomplete five-decoration matrix
+DPA2__fcc_parent,DPA2,fcc,phase_native,fcc,5,0,blocked_incomplete,pressure_error_GPa,,,,,blocked: incomplete five-decoration matrix
+DPA2__fcc_parent,DPA2,fcc,phase_native,fcc,5,0,blocked_incomplete,max_stress_error_GPa,,,,,blocked: incomplete five-decoration matrix
+DPA2__fcc_parent,DPA2,fcc,phase_native,fcc,5,0,blocked_incomplete,fraction_fcc,,,,,blocked: incomplete five-decoration matrix
+DPA3__bcc_parent,DPA3,bcc,phase_native,bcc,5,5,eligible_balanced,energy_eV_per_atom,-9.754725224229162,0.0013194357043330995,-9.756363520041177,-9.753086928417147,"two-sided Student-t, df=4"
+DPA3__bcc_parent,DPA3,bcc,phase_native,bcc,5,5,eligible_balanced,volume_A3_per_atom,19.107756279603898,0.008990088795249986,19.09659361000618,19.118918949201614,"two-sided Student-t, df=4"
+DPA3__bcc_parent,DPA3,bcc,phase_native,bcc,5,5,eligible_balanced,density_g_cm3,10.3325108229961,0.00486200104989212,10.32647385133322,10.33854779465898,"two-sided Student-t, df=4"
+DPA3__bcc_parent,DPA3,bcc,phase_native,bcc,5,5,eligible_balanced,max_force_eV_per_A,0.0013777129279333167,0.0007755038283050264,0.00041479774385777025,0.002340628112008863,"two-sided Student-t, df=4"
+DPA3__bcc_parent,DPA3,bcc,phase_native,bcc,5,5,eligible_balanced,pressure_error_GPa,0.024229242402541297,0.01716471928403092,0.002916428428286176,0.04554205637679642,"two-sided Student-t, df=4"
+DPA3__bcc_parent,DPA3,bcc,phase_native,bcc,5,5,eligible_balanced,max_stress_error_GPa,0.0720195632306878,0.02277147354707694,0.04374504434123294,0.10029408212014265,"two-sided Student-t, df=4"
+DPA3__bcc_parent,DPA3,bcc,phase_native,bcc,5,5,eligible_balanced,fraction_bcc,0.9821,0.0074866547936979135,0.9728040902756856,0.9913959097243144,"two-sided Student-t, df=4"
+DPA3__bcc_parent,DPA3,bcc,reciprocal_alarm,fcc,5,0,blocked_incomplete,energy_eV_per_atom,,,,,blocked: incomplete five-decoration matrix
+DPA3__bcc_parent,DPA3,bcc,reciprocal_alarm,fcc,5,0,blocked_incomplete,volume_A3_per_atom,,,,,blocked: incomplete five-decoration matrix
+DPA3__bcc_parent,DPA3,bcc,reciprocal_alarm,fcc,5,0,blocked_incomplete,density_g_cm3,,,,,blocked: incomplete five-decoration matrix
+DPA3__bcc_parent,DPA3,bcc,reciprocal_alarm,fcc,5,0,blocked_incomplete,max_force_eV_per_A,,,,,blocked: incomplete five-decoration matrix
+DPA3__bcc_parent,DPA3,bcc,reciprocal_alarm,fcc,5,0,blocked_incomplete,pressure_error_GPa,,,,,blocked: incomplete five-decoration matrix
+DPA3__bcc_parent,DPA3,bcc,reciprocal_alarm,fcc,5,0,blocked_incomplete,max_stress_error_GPa,,,,,blocked: incomplete five-decoration matrix
+DPA3__bcc_parent,DPA3,bcc,reciprocal_alarm,fcc,5,0,blocked_incomplete,fraction_fcc,,,,,blocked: incomplete five-decoration matrix
+DPA3__fcc_parent,DPA3,fcc,reciprocal_alarm,bcc,5,5,eligible_balanced,energy_eV_per_atom,-9.74196780141167,0.0015472493171022569,-9.743888965184961,-9.740046637638379,"two-sided Student-t, df=4"
+DPA3__fcc_parent,DPA3,fcc,reciprocal_alarm,bcc,5,5,eligible_balanced,volume_A3_per_atom,19.060987291684818,0.011958595213057841,19.04613873453967,19.075835848829964,"two-sided Student-t, df=4"
+DPA3__fcc_parent,DPA3,fcc,reciprocal_alarm,bcc,5,5,eligible_balanced,density_g_cm3,10.35786461248736,0.006496717441887838,10.349797872333266,10.365931352641454,"two-sided Student-t, df=4"
+DPA3__fcc_parent,DPA3,fcc,reciprocal_alarm,bcc,5,5,eligible_balanced,max_force_eV_per_A,0.0006601517121453068,0.0002778632763303084,0.0003151388855030181,0.0010051645387875955,"two-sided Student-t, df=4"
+DPA3__fcc_parent,DPA3,fcc,reciprocal_alarm,bcc,5,5,eligible_balanced,pressure_error_GPa,0.021690133368802756,0.0220814340487736,-0.005727588318270253,0.04910785505587577,"two-sided Student-t, df=4"
+DPA3__fcc_parent,DPA3,fcc,reciprocal_alarm,bcc,5,5,eligible_balanced,max_stress_error_GPa,0.08239123185149914,0.01807183582537174,0.059952083925686,0.10483037977731229,"two-sided Student-t, df=4"
+DPA3__fcc_parent,DPA3,fcc,reciprocal_alarm,bcc,5,5,eligible_balanced,fraction_bcc,0.9934,0.003911521443121593,0.9885432046458739,0.998256795354126,"two-sided Student-t, df=4"
+DPA3__fcc_parent,DPA3,fcc,phase_native,fcc,5,0,blocked_incomplete,energy_eV_per_atom,,,,,blocked: incomplete five-decoration matrix
+DPA3__fcc_parent,DPA3,fcc,phase_native,fcc,5,0,blocked_incomplete,volume_A3_per_atom,,,,,blocked: incomplete five-decoration matrix
+DPA3__fcc_parent,DPA3,fcc,phase_native,fcc,5,0,blocked_incomplete,density_g_cm3,,,,,blocked: incomplete five-decoration matrix
+DPA3__fcc_parent,DPA3,fcc,phase_native,fcc,5,0,blocked_incomplete,max_force_eV_per_A,,,,,blocked: incomplete five-decoration matrix
+DPA3__fcc_parent,DPA3,fcc,phase_native,fcc,5,0,blocked_incomplete,pressure_error_GPa,,,,,blocked: incomplete five-decoration matrix
+DPA3__fcc_parent,DPA3,fcc,phase_native,fcc,5,0,blocked_incomplete,max_stress_error_GPa,,,,,blocked: incomplete five-decoration matrix
+DPA3__fcc_parent,DPA3,fcc,phase_native,fcc,5,0,blocked_incomplete,fraction_fcc,,,,,blocked: incomplete five-decoration matrix
+DPA4__bcc_parent,DPA4,bcc,phase_native,bcc,5,5,eligible_balanced,energy_eV_per_atom,-9.760964413021444,0.0008282001792703186,-9.76199275936735,-9.759936066675538,"two-sided Student-t, df=4"
+DPA4__bcc_parent,DPA4,bcc,phase_native,bcc,5,5,eligible_balanced,volume_A3_per_atom,18.91973083246356,0.0027275898150453293,18.916344082388353,18.92311758253877,"two-sided Student-t, df=4"
+DPA4__bcc_parent,DPA4,bcc,phase_native,bcc,5,5,eligible_balanced,density_g_cm3,10.43519427550868,0.0015044262928768462,10.433326283542863,10.437062267474497,"two-sided Student-t, df=4"
+DPA4__bcc_parent,DPA4,bcc,phase_native,bcc,5,5,eligible_balanced,max_force_eV_per_A,0.0003454996117282616,7.814798482327913e-05,0.0002484660724410216,0.00044253315101550164,"two-sided Student-t, df=4"
+DPA4__bcc_parent,DPA4,bcc,phase_native,bcc,5,5,eligible_balanced,pressure_error_GPa,0.009143312585705509,0.009871076518580652,-0.003113247750930659,0.021399872922341676,"two-sided Student-t, df=4"
+DPA4__bcc_parent,DPA4,bcc,phase_native,bcc,5,5,eligible_balanced,max_stress_error_GPa,0.0596510062882582,0.012713926417657825,0.043864581579640696,0.0754374309968757,"two-sided Student-t, df=4"
+DPA4__bcc_parent,DPA4,bcc,phase_native,bcc,5,5,eligible_balanced,fraction_bcc,0.9994,0.001341640786499875,0.9977341329368813,1.0010658670631187,"two-sided Student-t, df=4"
+DPA4__bcc_parent,DPA4,bcc,reciprocal_alarm,fcc,5,4,blocked_incomplete,energy_eV_per_atom,,,,,blocked: incomplete five-decoration matrix
+DPA4__bcc_parent,DPA4,bcc,reciprocal_alarm,fcc,5,4,blocked_incomplete,volume_A3_per_atom,,,,,blocked: incomplete five-decoration matrix
+DPA4__bcc_parent,DPA4,bcc,reciprocal_alarm,fcc,5,4,blocked_incomplete,density_g_cm3,,,,,blocked: incomplete five-decoration matrix
+DPA4__bcc_parent,DPA4,bcc,reciprocal_alarm,fcc,5,4,blocked_incomplete,max_force_eV_per_A,,,,,blocked: incomplete five-decoration matrix
+DPA4__bcc_parent,DPA4,bcc,reciprocal_alarm,fcc,5,4,blocked_incomplete,pressure_error_GPa,,,,,blocked: incomplete five-decoration matrix
+DPA4__bcc_parent,DPA4,bcc,reciprocal_alarm,fcc,5,4,blocked_incomplete,max_stress_error_GPa,,,,,blocked: incomplete five-decoration matrix
+DPA4__bcc_parent,DPA4,bcc,reciprocal_alarm,fcc,5,4,blocked_incomplete,fraction_fcc,,,,,blocked: incomplete five-decoration matrix
+DPA4__fcc_parent,DPA4,fcc,reciprocal_alarm,bcc,5,5,eligible_balanced,energy_eV_per_atom,-9.758140391296717,0.0006719602081024983,-9.758974740095343,-9.75730604249809,"two-sided Student-t, df=4"
+DPA4__fcc_parent,DPA4,fcc,reciprocal_alarm,bcc,5,5,eligible_balanced,volume_A3_per_atom,18.89466497043022,0.006090937084200951,18.887102073137445,18.902227867722996,"two-sided Student-t, df=4"
+DPA4__fcc_parent,DPA4,fcc,reciprocal_alarm,bcc,5,5,eligible_balanced,density_g_cm3,10.4490384089854,0.00336701353807914,10.444857709493702,10.453219108477098,"two-sided Student-t, df=4"
+DPA4__fcc_parent,DPA4,fcc,reciprocal_alarm,bcc,5,5,eligible_balanced,max_force_eV_per_A,0.00034733004449917217,7.59322907476986e-05,0.00025304765277661386,0.0004416124362217305,"two-sided Student-t, df=4"
+DPA4__fcc_parent,DPA4,fcc,reciprocal_alarm,bcc,5,5,eligible_balanced,pressure_error_GPa,0.007592739781841629,0.006767516409307557,-0.0008102417008487885,0.015995721264532047,"two-sided Student-t, df=4"
+DPA4__fcc_parent,DPA4,fcc,reciprocal_alarm,bcc,5,5,eligible_balanced,max_stress_error_GPa,0.04363666341286718,0.01422061370854746,0.025979439338600845,0.061293887487133505,"two-sided Student-t, df=4"
+DPA4__fcc_parent,DPA4,fcc,reciprocal_alarm,bcc,5,5,eligible_balanced,fraction_bcc,1.0,0.0,1.0,1.0,"two-sided Student-t, df=4"
+DPA4__fcc_parent,DPA4,fcc,phase_native,fcc,5,5,eligible_balanced,energy_eV_per_atom,-9.678970754109672,0.0004129276787580189,-9.679483471542248,-9.678458036677096,"two-sided Student-t, df=4"
+DPA4__fcc_parent,DPA4,fcc,phase_native,fcc,5,5,eligible_balanced,volume_A3_per_atom,19.07554229954166,0.007073189707751988,19.06675977452908,19.08432482455424,"two-sided Student-t, df=4"
+DPA4__fcc_parent,DPA4,fcc,phase_native,fcc,5,5,eligible_balanced,density_g_cm3,10.34995924172948,0.0038384063036193293,10.345193230811796,10.354725252647162,"two-sided Student-t, df=4"
+DPA4__fcc_parent,DPA4,fcc,phase_native,fcc,5,5,eligible_balanced,max_force_eV_per_A,0.0005628412412112041,0.00040024184316956717,6.58753539728344e-05,0.0010598071284495737,"two-sided Student-t, df=4"
+DPA4__fcc_parent,DPA4,fcc,phase_native,fcc,5,5,eligible_balanced,pressure_error_GPa,0.014840099806201133,0.019882421593141936,-0.009847187283112385,0.039527386895514646,"two-sided Student-t, df=4"
+DPA4__fcc_parent,DPA4,fcc,phase_native,fcc,5,5,eligible_balanced,max_stress_error_GPa,0.055400073982926255,0.02539191672619716,0.023871845138619195,0.08692830282723332,"two-sided Student-t, df=4"
+DPA4__fcc_parent,DPA4,fcc,phase_native,fcc,5,5,eligible_balanced,fraction_fcc,0.9958,0.006220932405998322,0.9880756921962127,1.0035243078037872,"two-sided Student-t, df=4"
+DPA2__bcc_parent,DPA2,bcc,within_model_phase_pair,fcc_minus_bcc,5,0,blocked_incomplete,energy_fcc_minus_bcc_eV_per_atom,,,,,blocked: incomplete five-pair matrix
+DPA2__fcc_parent,DPA2,fcc,within_model_phase_pair,fcc_minus_bcc,5,0,blocked_incomplete,energy_fcc_minus_bcc_eV_per_atom,,,,,blocked: incomplete five-pair matrix
+DPA3__bcc_parent,DPA3,bcc,within_model_phase_pair,fcc_minus_bcc,5,0,blocked_incomplete,energy_fcc_minus_bcc_eV_per_atom,,,,,blocked: incomplete five-pair matrix
+DPA3__fcc_parent,DPA3,fcc,within_model_phase_pair,fcc_minus_bcc,5,0,blocked_incomplete,energy_fcc_minus_bcc_eV_per_atom,,,,,blocked: incomplete five-pair matrix
+DPA4__bcc_parent,DPA4,bcc,within_model_phase_pair,fcc_minus_bcc,5,4,blocked_incomplete,energy_fcc_minus_bcc_eV_per_atom,,,,,blocked: incomplete five-pair matrix
+DPA4__fcc_parent,DPA4,fcc,within_model_phase_pair,fcc_minus_bcc,5,5,eligible_balanced,energy_fcc_minus_bcc_eV_per_atom,0.07916963718704366,0.0009446894397284594,0.07799665032024955,0.08034262405383777,"paired by chemical seed; two-sided Student-t, df=4"

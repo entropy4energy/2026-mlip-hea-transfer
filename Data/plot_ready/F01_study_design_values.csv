@@ -1,0 +1,21 @@
+panel,item,value,unit,source
+a,FCC POCC configurations,49,structures,aflow_pocc_structure_manifest.csv
+a,BCC POCC configurations,49,structures,aflow_pocc_structure_manifest.csv
+a,Total POCC configurations,98,structures,aflow_pocc_structure_manifest.csv
+a,Alloy elements,Hf; Mo; Ta; Ti; Zr,elements,aflow_pocc_structure_manifest.csv
+b,Shared PURE training systems,20,systems,dataset_regime_counts.csv
+b,Shared PURE training labels,10881,labels,dataset_regime_counts.csv
+b,FCC-to-BCC seed labels added,29,labels,dataset_regime_counts.csv
+b,BCC-to-FCC seed labels added,30,labels,dataset_regime_counts.csv
+b,FCC-to-BCC trajectory labels added,15848,labels,dataset_regime_counts.csv
+b,BCC-to-FCC trajectory labels added,22857,labels,dataset_regime_counts.csv
+c,FCC-to-BCC POCC training systems,29,systems,study design / dataset counts
+c,FCC-to-BCC H0 validation systems,12,systems,dataset_regime_counts.csv
+c,FCC-to-BCC unseen BCC systems,42,systems,dataset_regime_counts.csv
+c,BCC-to-FCC POCC training systems,30,systems,study design / dataset counts
+c,BCC-to-FCC H0 validation systems,12,systems,dataset_regime_counts.csv
+c,BCC-to-FCC unseen FCC systems,41,systems,dataset_regime_counts.csv
+d,Architectures,3,recipes,model_recipe_summary.csv
+d,Hash-locked training runs,15,runs,model_recipe_summary.csv / frozen matrix
+d,Optimization steps per run,500000,steps,model_recipe_summary.csv
+d,Paired bootstrap resamples,10000,resamples,primary result tables

@@ -1,0 +1,175 @@
+{
+  "learning_rate": {
+    "decay_phase_ratio": 0.65,
+    "decay_type": "cosine",
+    "start_lr": 0.00045,
+    "stop_lr": 1e-06,
+    "type": "wsd",
+    "warmup_start_factor": 0.2,
+    "warmup_steps": 5000
+  },
+  "loss": {
+    "f_use_norm": true,
+    "limit_pref_e": 20.0,
+    "limit_pref_f": 20.0,
+    "limit_pref_v": 0.1,
+    "loss_func": "mae",
+    "start_pref_e": 20.0,
+    "start_pref_f": 20.0,
+    "start_pref_v": 0.1,
+    "type": "ener"
+  },
+  "model": {
+    "descriptor": {
+      "channels": 32,
+      "edge_cartesian": false,
+      "ffn_blocks": 2,
+      "ffn_neurons": 0,
+      "ffn_so3_grid": true,
+      "focus_dim": 0,
+      "grid_branch": [
+        1,
+        1,
+        1
+      ],
+      "grid_mlp": [
+        false,
+        false,
+        false
+      ],
+      "lmax": 3,
+      "message_node_so3": true,
+      "mixing_layers": 3,
+      "mmax": 1,
+      "n_atten_head": 1,
+      "n_blocks": 2,
+      "n_focus": 2,
+      "n_radial": 16,
+      "node_cartesian": "none",
+      "precision": "float32",
+      "radial_so2_mode": "degree_channel",
+      "radial_so2_rank": 1,
+      "rcut": 6.0,
+      "sandwich_norm": [
+        false,
+        true,
+        true,
+        false
+      ],
+      "seed": 20260825,
+      "so3_readout": "mlp",
+      "use_amp": true,
+      "use_env_seed": true
+    },
+    "enable_tf32": true,
+    "fitting_net": {
+      "neuron": [
+        0
+      ],
+      "precision": "float32",
+      "seed": 20260825
+    },
+    "type": "DPA4",
+    "type_map": [
+      "Hf",
+      "Mo",
+      "Ta",
+      "Ti",
+      "Zr"
+    ],
+    "use_compile": false
+  },
+  "optimizer": {
+    "type": "HybridMuon",
+    "weight_decay": 0.001
+  },
+  "training": {
+    "disp_avg": true,
+    "disp_file": "lcurve.out",
+    "disp_freq": 1000,
+    "disp_training": true,
+    "ema_ckpt_keep": 3,
+    "ema_decay": 0.999,
+    "enable_ema": true,
+    "gradient_max_norm": 5.0,
+    "max_ckpt_keep": 5,
+    "numb_steps": 500000,
+    "save_dir": "ckpt",
+    "save_freq": 5000,
+    "seed": 20260825,
+    "stat_file": "./stats.hdf5",
+    "time_training": true,
+    "training_data": {
+      "batch_size": 1,
+      "systems": [
+        "${DATA_ROOT}/dataset/canonical/PURE/aimd/PURE__A_cI2_229_a.A__Mo125_n125",
+        "${DATA_ROOT}/dataset/canonical/PURE/aimd/PURE__A_cI2_229_a.A__Ta125_n125",
+        "${DATA_ROOT}/dataset/canonical/PURE/aimd/PURE__A_hP2_194_c-001.A__Hf150_n150",
+        "${DATA_ROOT}/dataset/canonical/PURE/aimd/PURE__A_hP2_194_c-001.A__Ti150_n150",
+        "${DATA_ROOT}/dataset/canonical/PURE/aimd/PURE__A_hP2_194_c-001.A__Zr150_n150",
+        "${DATA_ROOT}/dataset/canonical/PURE/aimd/PURE__A_hP4_194_bc-001.A__Hf108_n108",
+        "${DATA_ROOT}/dataset/canonical/PURE/aimd/PURE__A_hP4_194_bc-001.A__Mo108_n108",
+        "${DATA_ROOT}/dataset/canonical/PURE/aimd/PURE__A_hP4_194_bc-001.A__Ta108_n108",
+        "${DATA_ROOT}/dataset/canonical/PURE/aimd/PURE__A_hP4_194_bc-001.A__Ti108_n108",
+        "${DATA_ROOT}/dataset/canonical/PURE/aimd/PURE__A_hP4_194_bc-001.A__Zr108_n108",
+        "${DATA_ROOT}/dataset/canonical/PURE/aimd/PURE__A_hR1_166_a-002.A__Hf64_n64",
+        "${DATA_ROOT}/dataset/canonical/PURE/aimd/PURE__A_hR1_166_a-002.A__Ti125_n125",
+        "${DATA_ROOT}/dataset/canonical/PURE/aimd/PURE__A_oC8_64_f-001.A__Hf144_n144",
+        "${DATA_ROOT}/dataset/canonical/PURE/aimd/PURE__A_oC8_64_f-001.A__Mo180_n180",
+        "${DATA_ROOT}/dataset/canonical/PURE/aimd/PURE__A_oC8_64_f-001.A__Ta180_n180",
+        "${DATA_ROOT}/dataset/canonical/PURE/aimd/PURE__A_oC8_64_f-001.A__Zr144_n144",
+        "${DATA_ROOT}/dataset/canonical/PURE/aimd/PURE__A_oC8_64_f-003.A__Mo240_n240",
+        "${DATA_ROOT}/dataset/canonical/PURE/aimd/PURE__A_oC8_64_f-003.A__Ta240_n240",
+        "${DATA_ROOT}/dataset/canonical/PURE/aimd/PURE__A_oC8_64_f-003.A__Zr200_n200",
+        "${DATA_ROOT}/dataset/canonical/PURE/aimd/PURE__A_oF128_70_4h-001.A__Ti64_n64"
+      ],
+      "sys_probs": [
+        0.05,
+        0.05,
+        0.05,
+        0.05,
+        0.05,
+        0.05,
+        0.05,
+        0.05,
+        0.05,
+        0.05,
+        0.05,
+        0.05,
+        0.05,
+        0.05,
+        0.05,
+        0.05,
+        0.05,
+        0.05,
+        0.05,
+        0.05
+      ]
+    },
+    "validation_data": {
+      "batch_size": 1,
+      "numb_batch": 10,
+      "systems": [
+        "${DATA_ROOT}/dataset/canonical/PURE/aimd/PURE__A_tI4_141_a-001.A__Hf54_n54",
+        "${DATA_ROOT}/dataset/canonical/PURE/aimd/PURE__A_tI4_141_a-001.A__Mo128_n128",
+        "${DATA_ROOT}/dataset/canonical/PURE/aimd/PURE__A_tI4_141_a-001.A__Ta128_n128",
+        "${DATA_ROOT}/dataset/canonical/PURE/aimd/PURE__A_tI4_141_a-001.A__Ti128_n128",
+        "${DATA_ROOT}/dataset/canonical/PURE/aimd/PURE__A_tI4_141_a-001.A__Zr54_n54"
+      ],
+      "sys_probs": [
+        0.2,
+        0.2,
+        0.2,
+        0.2,
+        0.2
+      ]
+    },
+    "zero_stage": 1
+  },
+  "validating": {
+    "amp_infer": false,
+    "compiled_infer": false,
+    "save_best_dir": "ckpt_best",
+    "tf32_infer": false
+  }
+}

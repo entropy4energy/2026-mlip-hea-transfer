@@ -1,0 +1,7 @@
+fold,regime,role,systems,frames
+fcc_to_bcc,pure,training,20,10881
+fcc_to_bcc,pure_pocc_seed,training,49,10910
+fcc_to_bcc,pure_pocc_aimd,training,49,26729
+bcc_to_fcc,pure,training,20,10881
+bcc_to_fcc,pure_pocc_seed,training,50,10911
+bcc_to_fcc,pure_pocc_aimd,training,50,33738

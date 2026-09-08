@@ -1,0 +1,7 @@
+model_id,architecture,training_parent,phase,planned_chemical_replicas,eligible_chemical_replicas,scientific_status,mean,sample_standard_deviation,ci95_lower,ci95_upper,ci_method
+DPA2__bcc_parent,DPA2,bcc,bcc,5,5,eligible_balanced,19.0688141656802,0.007084102199315059,19.060018091019717,19.077610240340686,"two-sided Student-t, df=4"
+DPA2__fcc_parent,DPA2,fcc,fcc,5,0,blocked_incomplete,,,,,blocked: incomplete five-decoration matrix
+DPA3__bcc_parent,DPA3,bcc,bcc,5,5,eligible_balanced,19.107756279603898,0.008990088795249986,19.09659361000618,19.118918949201614,"two-sided Student-t, df=4"
+DPA3__fcc_parent,DPA3,fcc,fcc,5,0,blocked_incomplete,,,,,blocked: incomplete five-decoration matrix
+DPA4__bcc_parent,DPA4,bcc,bcc,5,5,eligible_balanced,18.91973083246356,0.0027275898150453293,18.916344082388353,18.92311758253877,"two-sided Student-t, df=4"
+DPA4__fcc_parent,DPA4,fcc,fcc,5,5,eligible_balanced,19.07554229954166,0.007073189707751988,19.06675977452908,19.08432482455424,"two-sided Student-t, df=4"

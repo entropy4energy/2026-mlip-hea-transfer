@@ -1,0 +1,3 @@
+fold,frozen_seed_reduction_fraction,recomputed_seed_reduction_fraction,absolute_fold_difference,maximum_environment_distance_difference,systematic_frame_count,status
+fcc_to_bcc,0.49729753128270465,0.49729753128270465,0.0,0.0,29,passed
+bcc_to_fcc,0.551573439737704,0.551573439737704,0.0,0.0,30,passed

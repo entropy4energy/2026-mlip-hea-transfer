@@ -1,0 +1,89 @@
+# Phase/orientation-preserving zero-pressure relaxation for an oriented BCC HEA.
+
+clear
+units           metal
+dimension       3
+boundary        p p p
+atom_style      atomic
+atom_modify     map yes
+
+variable        MODEL index model.pth
+variable        PLUGIN index libdeepmd_lmp.so
+variable        DATA index structure.data
+variable        MODEL_ID index DPA2__bcc_parent
+variable        ORIENTATION index 100
+variable        P_TARGET index 0.0
+variable        ETOL index 0.0
+variable        FTOL index 1.0e-4
+variable        MAXITER index 20000
+variable        MAXEVAL index 200000
+variable        MAX_RELAX_CYCLES index 10
+variable        MAX_FINAL_FORCE index 0.02
+variable        MAX_NORMAL_STRESS_GPA index 0.10
+
+plugin          load ${PLUGIN}
+read_data       ${DATA}
+change_box      all triclinic
+
+mass            1 178.49
+mass            2 95.95
+mass            3 180.94788
+mass            4 47.867
+mass            5 91.224
+pair_style      deepmd ${MODEL}
+pair_coeff      * * Hf Mo Ta Ti Zr
+neighbor        2.5 bin
+neigh_modify    every 1 delay 0 check yes
+newton          on
+
+thermo          25
+thermo_style    custom step atoms pe press pxx pyy pzz pxy pxz pyz lx ly lz xy xz yz vol fmax
+thermo_modify   lost error norm no flush yes
+min_style       cg
+min_modify      dmax 0.05 line quadratic
+
+# Remove the largest local forces first.  Subsequent aniso box relaxation
+# permits independent normal strains but freezes tilt, preserving the declared
+# simulation-x crystallographic direction.
+minimize        ${ETOL} ${FTOL} ${MAXITER} ${MAXEVAL}
+variable        relax_cycle loop ${MAX_RELAX_CYCLES}
+label           RELAX_LOOP
+fix             CELL all box/relax aniso ${P_TARGET} couple none vmax 0.001
+minimize        ${ETOL} ${FTOL} ${MAXITER} ${MAXEVAL}
+unfix           CELL
+minimize        ${ETOL} ${FTOL} ${MAXITER} ${MAXEVAL}
+variable        fmax_now equal fmax
+variable        exx equal abs(pxx-${P_TARGET})*1.0e-4
+variable        eyy equal abs(pyy-${P_TARGET})*1.0e-4
+variable        ezz equal abs(pzz-${P_TARGET})*1.0e-4
+variable        max_xy equal 0.5*(v_exx+v_eyy+abs(v_exx-v_eyy))
+variable        max_normal equal 0.5*(v_max_xy+v_ezz+abs(v_max_xy-v_ezz))
+fix             EVALUATE all nve
+run             0 post no
+unfix           EVALUATE
+print           "${relax_cycle},${fmax_now},${max_normal},$(vol/atoms)" append relax_convergence.csv screen yes
+if              "${fmax_now} <= ${MAX_FINAL_FORCE} && ${max_normal} <= ${MAX_NORMAL_STRESS_GPA}" then "jump SELF RELAX_DONE"
+next            relax_cycle
+jump            SELF RELAX_LOOP
+label           RELAX_DONE
+
+fix             FINAL_EVALUATE all nve
+run             0 post no
+unfix           FINAL_EVALUATE
+if              "${fmax_now} > ${MAX_FINAL_FORCE}" then "print 'ERROR: final force gate failed'" "quit 2"
+if              "${max_normal} > ${MAX_NORMAL_STRESS_GPA}" then "print 'ERROR: final normal-stress gate failed'" "quit 2"
+
+variable        epa equal pe/atoms
+variable        vpa equal vol/atoms
+variable        sxx equal -pxx*1.0e-4
+variable        syy equal -pyy*1.0e-4
+variable        szz equal -pzz*1.0e-4
+variable        sxy equal -pxy*1.0e-4
+variable        sxz equal -pxz*1.0e-4
+variable        syz equal -pyz*1.0e-4
+print           "model_id,orientation,natoms,energy_eV_per_atom,volume_A3_per_atom,sxx_GPa,syy_GPa,szz_GPa,sxy_GPa,sxz_GPa,syz_GPa,max_force_eV_per_A,max_normal_stress_error_GPa,lx_A,ly_A,lz_A" file relax_summary.csv screen no
+print           "${MODEL_ID},${ORIENTATION},$(atoms),${epa},${vpa},${sxx},${syy},${szz},${sxy},${sxz},${syz},${fmax_now},${max_normal},$(lx),$(ly),$(lz)" append relax_summary.csv screen yes
+
+write_data      relaxed.data nocoeff
+write_restart   relaxed.restart
+print           "H100_CAMPAIGN_STAGE_COMPLETE relax ${ORIENTATION}"

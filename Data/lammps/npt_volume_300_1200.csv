@@ -1,0 +1,13 @@
+model_id,architecture,training_parent,simulated_phase,temperature_K,planned_chemical_replicas,eligible_chemical_replicas,status,source,ci_method,volume_A3_per_atom_mean,volume_A3_per_atom_mean_sd,volume_A3_per_atom_mean_ci95_low,volume_A3_per_atom_mean_ci95_high
+DPA2__bcc_parent,DPA2,bcc,bcc,300,3,3,eligible,A11,"two-sided Student-t, df=2",19.191329616666668,0.003779380408987206,19.1819411152653,19.200718118068036
+DPA2__bcc_parent,DPA2,bcc,bcc,1200,3,3,eligible,A11,"two-sided Student-t, df=2",19.670040216666667,0.004000158728204312,19.660103271516572,19.679977161816762
+DPA2__fcc_parent,DPA2,fcc,fcc,300,3,0,blocked_incomplete_a21_group,upstream_or_length_blocked,"two-sided Student-t, df=2",,,,
+DPA2__fcc_parent,DPA2,fcc,fcc,1200,3,0,blocked_incomplete_a21_group,upstream_or_length_blocked,"two-sided Student-t, df=2",,,,
+DPA3__bcc_parent,DPA3,bcc,bcc,300,3,3,eligible,A11,"two-sided Student-t, df=2",19.247315866666668,0.0069706879675438035,19.229999717808997,19.264632015524338
+DPA3__bcc_parent,DPA3,bcc,bcc,1200,3,3,eligible,A11,"two-sided Student-t, df=2",19.702735866666668,0.007933170651499127,19.683028778276785,19.72244295505655
+DPA3__fcc_parent,DPA3,fcc,fcc,300,3,0,blocked_incomplete_a21_group,upstream_or_length_blocked,"two-sided Student-t, df=2",,,,
+DPA3__fcc_parent,DPA3,fcc,fcc,1200,3,0,blocked_incomplete_a21_group,upstream_or_length_blocked,"two-sided Student-t, df=2",,,,
+DPA4__bcc_parent,DPA4,bcc,bcc,300,3,3,eligible,A11,"two-sided Student-t, df=2",19.088450583333334,0.0026927477074245483,19.08176142720484,19.09513973946183
+DPA4__bcc_parent,DPA4,bcc,bcc,1200,3,3,eligible,A21_fresh_100ps_length_resolution,"two-sided Student-t, df=2",19.7520115,0.00343483269461641,19.74347890256943,19.760544097430568
+DPA4__fcc_parent,DPA4,fcc,fcc,300,3,3,eligible,A11,"two-sided Student-t, df=2",19.33001425,0.01109547271232799,19.302451567804574,19.35757693219543
+DPA4__fcc_parent,DPA4,fcc,fcc,1200,3,0,blocked_incomplete_a21_group,upstream_or_length_blocked,"two-sided Student-t, df=2",,,,
